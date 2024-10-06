@@ -75,7 +75,8 @@ async function playRaceEngine(character1, character2) {
         diceResult2,
         character2.VELOCIDADE
       );
-    } else if (block == "CURVA") {
+    }
+    if (block == "CURVA") {
       totalTestSkill1 = diceResult1 + character1.MANOBRABILIDADE;
       totalTestSkill2 = diceResult2 + character2.MANOBRABILIDADE;
       await logRollResult(
@@ -90,9 +91,10 @@ async function playRaceEngine(character1, character2) {
         diceResult2,
         character2.MANOBRABILIDADE
       );
-    } else if (block == "CONFRONTO") {
-      let powerResult1 = diceResult1 + character1.PODER;
-      let powerResult2 = diceResult2 + character2.PODER;
+    }
+    if (block == "CONFRONTO") {
+      totalTestSkill1 = diceResult1 + character1.PODER;
+      totalTestSkill2 = diceResult2 + character2.PODER;
 
       console.log(`${character1.NOME} confrontou com ${character2.NOME}!`);
       await logRollResult(
@@ -108,7 +110,7 @@ async function playRaceEngine(character1, character2) {
         character2.PODER
       );
     }
-    if (diceResult1 + character1.PODER > diceResult2 + character2.PODER) {
+    if (totalTestSkill1 > totalTestSkill2) {
       if (character2.PONTOS > 0) {
         console.log(
           `${character1.NOME} venceu o confronto! ${character2.NOME} perdeu 1 ponto 🐢`
@@ -116,7 +118,7 @@ async function playRaceEngine(character1, character2) {
         character2.PONTOS--;
       }
     }
-    if (diceResult1 + character1.PODER < diceResult2 + character2.PODER) {
+    if (totalTestSkill1 < totalTestSkill2) {
       if (character1.PONTOS > 0) {
         console.log(
           `${character2.NOME} venceu o confronto! ${character1.NOME} perdeu 1 ponto 🐢`
@@ -124,7 +126,7 @@ async function playRaceEngine(character1, character2) {
         character1.PONTOS--;
       }
     }
-    if (powerResult1 === powerResult2) {
+    if (totalTestSkill1 == totalTestSkill2) {
       console.log("Deu empate, nada aconetce");
     }
 
@@ -140,7 +142,7 @@ async function playRaceEngine(character1, character2) {
     }
   }
 }
-
+// Exibi a msg de dados do corredor
 async function logRollResult(characterName, block, diceResult, attribute) {
   console.log(
     `${characterName} 🎲 rolou um dado de ${block} ${diceResult} + ${attribute}: ${
@@ -149,6 +151,7 @@ async function logRollResult(characterName, block, diceResult, attribute) {
   );
 }
 
+// Exibi quem venceu
 async function declareWinner(character1, character2) {
   console.log("Resultado final:");
   console.log(`${character1.NOME}: ${character1.PONTOS} ponto(s)`);
@@ -162,7 +165,7 @@ async function declareWinner(character1, character2) {
     console.log(`\n A Corrida terminou em empate`);
   }
 }
-
+//Onde tudo acontece
 (async function main() {
   console.log(
     `🚗Corrida entre ${player1.NOME} e ${player2.NOME} começando... \n`
